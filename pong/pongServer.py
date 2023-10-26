@@ -23,6 +23,16 @@ server.listen(5)
 
 player2Socket, player2Address = server.accept()
 
+#def player1Side(paddle, ball):
+#def player2Side(paddle, ball):
+# loop, get paddle and ball location
+player1Thread = threading.Thread(target=player1Side, args=(paddle, ball,))
+player2Thread = threading.Thread(target=player2Side, args=(paddle, ball,))
+player1Thread.start()
+player2Thread.start()
+player1Thread.join()
+player2Thread.join()
+
 player1Socket.close()
 player2Socket.close()
 server.close()

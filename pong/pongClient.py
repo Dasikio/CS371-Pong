@@ -1,6 +1,6 @@
 # =================================================================================================
-# Contributing Authors:	    Daniel Alvarado
-# Email Addresses:          dal240@uky.edu
+# Contributing Authors:	    Daniel Alvarado, Natalie O'Leary
+# Email Addresses:          dal240@uky.edu, natalie.oleary@uky.edu
 # Date:                     10/24/2023
 # Purpose:                  <How this file contributes to the project>
 # Misc:                     <Not Required.  Anything else you might want to include>

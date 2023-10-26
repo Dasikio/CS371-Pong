@@ -26,8 +26,8 @@ player2Socket, player2Address = server.accept()
 #def player1Side(paddle, ball):
 #def player2Side(paddle, ball):
 # loop, get paddle and ball location
-player1Thread = threading.Thread(target=player1Side, args=(paddle, ball,))
-player2Thread = threading.Thread(target=player2Side, args=(paddle, ball,))
+player1Thread = threading.Thread(target=player1Side, args=(Paddle, Ball,))
+player2Thread = threading.Thread(target=player2Side, args=(Paddle, Ball,))
 player1Thread.start()
 player2Thread.start()
 player1Thread.join()

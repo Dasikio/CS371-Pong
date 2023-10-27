@@ -39,16 +39,7 @@ while True:
     playerThread.join()
     currPlayer +=1
 
-#server.listen(5)
-
-
-#player1Thread.start()
-#player2Thread.start()
-#player1Thread.join()
-#player2Thread.join()
-
-#player1Socket.close()
-#player2Socket.close()
+playerSocket.close()
 server.close()
 
 # Use this file to write your server logic

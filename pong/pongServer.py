@@ -24,11 +24,11 @@ server.listen(5)
 print(f"Listening on {SERVER}") #Once server starts listening it shows IPv4 to use to connect
 
 side = ["left","right"] #list to know what side each player is in (0 is left player, 1 is right player)
-
+position = [240,240]
 def player_handle(playerSocket,playerNum):
     start = (640,480,side[playerNum]) #tuple that contains values to start client (width,length,position of player)
     playerSocket.send(pickle.dumps(start)) #send command, uses pickle so client receives tuple with the correct format after sending through socket
-# FIX THIS :) msg = clientSocket.recv(1024).decode()
+# FIX THIS :) position[playerNum] = clientSocket.recv(1024).decode()
 # loop, get paddle and ball location
 
 currPlayer = 0

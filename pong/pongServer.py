@@ -35,6 +35,7 @@ currPlayer = 0
 while True:
     playerSocket, playerAddress = server.accept()
     playerThread = threading.Thread(target=player_handle, args=(playerSocket,currPlayer,))
+    playerThread.start
     currPlayer +=1
 
 #server.listen(5)

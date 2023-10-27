@@ -26,7 +26,7 @@ print(f"Listening on {SERVER}") #Once server starts listening it shows IPv4 to u
 position = ["left","right"] #list to know what side each player is in (0 is left player, 1 is right player)
 
 def player_handle(playerSocket,playerNum):
-    start = (640,480,position[playerNum]) #tuple that contains values to start client (width,length,position of player,server)
+    start = (640,480,position[playerNum]) #tuple that contains values to start client (width,length,position of player)
     playerSocket.send(pickle.dumps(start)) #send command, uses pickle so client receives tuple with the correct format after sending through socket
 
 # loop, get paddle and ball location

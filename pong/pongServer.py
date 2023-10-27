@@ -33,7 +33,9 @@ def player_handle(playerSocket,playerNum):
 
     while True: # loop, get paddle and ball location
         try:#checks for error
-            position[playerNum] = playerSocket.recv(1024).decode() #get message from client
+            msg = int(playerSocket.recv(1024).decode()) #get paddle position message from client
+            position[playerNum] = msg
+
             if playerNum == 0: #determine which client sent message and what to respond with
                 reply = position[1]
             else:

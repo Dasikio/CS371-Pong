@@ -9,13 +9,17 @@
 import socket
 import threading
 
+SERVER = socket.gethostbyname(socket.gethostname()) #Command to get server IPv4 addres (might change depending on network)
+
+
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #create server
 
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #working on local host
 
-server.bind(("127.0.0.1", 12321))
+server.bind((SERVER, 12321))
 
 server.listen(5)
+print(f"Listening on {SERVER}") #Once server starts listening it shows IPv4 to use to connect
 
 player1Socket, player1Address = server.accept()
 

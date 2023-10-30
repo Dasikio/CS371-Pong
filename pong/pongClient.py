@@ -178,7 +178,7 @@ def joinServer(ip:str, port:str, errorLabel:tk.Label, app:tk.Tk) -> None:
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # Get the required information from your server (screen width, height & player paddle, "left or "right)
-    client.connect((ip, port))
+    client.connect((ip, int(port)))
     #data = client.recv(1024).decode() # Adjust the buffer size
     #start = pickle.loads(data)
 

@@ -23,7 +23,7 @@ server.listen(5)
 print(f"Listening on {SERVER}") #Once the server starts listening, it shows the IPv4 to use to connect
 
 side = ["left","right"] #List that specifies which side each player is on (list value 0 = left player, list value 1 = right player)
-paddleDirection = ["",""] #Default y-axis position for the paddles
+paddleDirection = ["",""] #Default direction for paddles
 
 #Handles information exchange between client and server 
 def player_handle(playerSocket,playerNum):

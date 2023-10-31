@@ -11,49 +11,60 @@ import threading
 import pickle
 
 
-SERVER = socket.gethostbyname(socket.gethostname()) #Command to get server IPv4 addres (might change depending on network)
+SERVER = socket.gethostbyname(socket.gethostname()) #Get server IPv4 address (might change depending on network)
 
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Create server
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #create server
-
-server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #working on local host
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #Working on local host
 
 server.bind((SERVER, 12321))
 
 server.listen(5)
-print(f"Listening on {SERVER}") #Once server starts listening it shows IPv4 to use to connect
+print(f"Listening on {SERVER}") #Once the server starts listening, it shows the IPv4 to use to connect
 
-side = ["left","right"] #list to know what side each player is in (0 is left player, 1 is right player)
-position = [240,240]
+side = ["left","right"] #List that specifies which side each player is on (list value 0 = left player, list value 1 = right player)
+paddlePosition = [240,240] #Default y-axis position for the paddles
 
+#Handles information exchange between client and server 
 def player_handle(playerSocket,playerNum):
-    start = (640,480,side[playerNum]) #tuple that contains values to start client (width,length,position of player)
-    playerSocket.send(pickle.dumps(start)) #send command, uses pickle so client receives tuple with the correct format after sending through socket
-    reply = ""
+    start = (640,480,side[playerNum]) #Tuple that contains values to start client (width,length, side of player)
+    playerSocket.send(pickle.dumps(start)) #Send information via pickle so client receives tuple with the correct format after sending through socket
+    reply = "" #Initialize reply variable
 
-    while True: # loop, get paddle and ball location
-        try:#checks for error
-            msg = int(playerSocket.recv(1024).decode()) #get paddle position message from client
-            position[playerNum] = msg
+    #Continuously get the paddle position from the client and reply with the paddle position of the opponent
+    while True:
 
-            if playerNum == 0: #determine which client sent message and what to respond with
-                reply = position[1]
+        #Try checks for error
+        try:
+            msg = int(playerSocket.recv(1024).decode()) #Retrieve paddle position message from client
+            paddlePosition[playerNum] = msg #Update position of the player calling the handle
+
+            #Set the reply to equal the position of the opponent's paddle
+            if playerNum == 0: 
+                reply = paddlePosition[1]
             else:
-                reply = position[0]
-                
-            playerSocket.send(reply)#send response to paddle update
-        except:#stop while loop if error happens
+                reply = paddlePosition[0]
+            
+            playerSocket.send(reply) #Send opponent's paddle position
+       
+       #If an error occurs, break loop
+        except:
             break   
     
+    #Close connection, end loop
     playerSocket.close()
-    
-currPlayer = 0
+
+
+currPlayer = 0 #Initialize variable to indicate current player
+
+#The main loop that connects the client to the server and begins a thread to update paddle positions to interested parties,
+#alternating between players
 while True:
     playerSocket, playerAddress = server.accept()
     playerThread = threading.Thread(target=player_handle, args=(playerSocket,currPlayer,))
     playerThread.start()
     playerThread.join()
-    currPlayer +=1
+    currPlayer +=1 #Update for next player
 
 #server.listen(5)
 

@@ -23,7 +23,7 @@ server.listen(5)
 print(f"Listening on {SERVER}") #Once the server starts listening, it shows the IPv4 to use to connect
 
 side = ["left","right"] #List that specifies which side each player is on (list value 0 = left player, list value 1 = right player)
-paddlePosition = [240,240] #Default y-axis position for the paddles
+paddlePosition = ["",""] #Default y-axis position for the paddles
 
 #Handles information exchange between client and server 
 def player_handle(playerSocket,playerNum):
@@ -36,7 +36,7 @@ def player_handle(playerSocket,playerNum):
 
         #Try checks for error
         try:
-            msg = int(playerSocket.recv(1024).decode()) #Retrieve paddle position message from client
+            msg = playerSocket.recv(1024).decode() #Retrieve paddle position message from client
             paddlePosition[playerNum] = msg #Update position of the player calling the handle
 
             #Set the reply to equal the position of the opponent's paddle
@@ -45,7 +45,7 @@ def player_handle(playerSocket,playerNum):
             else:
                 reply = paddlePosition[0]
             
-            playerSocket.send(reply) #Send opponent's paddle position
+            playerSocket.send(reply).encode() #Send opponent's paddle position
        
        #If an error occurs, break loop
         except:

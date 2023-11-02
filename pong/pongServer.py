@@ -40,10 +40,12 @@ def player_handle(playerSocket,playerNum):
             #paddleDirection[playerNum] = msg #Update position of the player calling the handle
 
             msg = playerSocket.recv(1024)
-            
+            playerInfo = pickle.loads(msg)
+            # ball x, ball y, paddle moving, score, sync
+            paddleDirection[playerNum] = playerInfo[2]
 
             #Set the reply to equal the position of the opponent's paddle
-            if playerNum == 0: 
+            if playerNum == 0:
                 reply = paddleDirection[1]
             else:
                 reply = paddleDirection[0]

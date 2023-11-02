@@ -24,7 +24,8 @@ print(f"Listening on {SERVER}") #Once the server starts listening, it shows the 
 
 side = ["left","right"] #List that specifies which side each player is on (list value 0 = left player, list value 1 = right player)
 paddleDirection = ["",""] #Default direction for paddles
-
+ballPosition = [(320,240),(320,240)]
+playerSync = [0,0]
 #Handles information exchange between client and server 
 def player_handle(playerSocket,playerNum):
     start = (640,480,side[playerNum]) #Tuple that contains values to start client (width,length, side of player)
@@ -43,13 +44,20 @@ def player_handle(playerSocket,playerNum):
             playerInfo = pickle.loads(msg)
             # ball x, ball y, paddle moving, score, sync
             paddleDirection[playerNum] = playerInfo[2]
-
+            ballPosition[playerNum] = (playerInfo[0],playerInfo[1])
+            playerSync[playerNum] = playerInfo[4]
             #Set the reply to equal the position of the opponent's paddle
             if playerNum == 0:
                 reply = paddleDirection[1]
             else:
                 reply = paddleDirection[0]
-            
+
+            #Find sys error
+            if playerSync[playerNum] < 0 #otehr player sync
+                a = ballPosition[1] #change for other player position
+            else:
+                a = ballPosition[playerNum]
+                
             playerSocket.send(reply).encode() #Send opponent's paddle position
        
        #If an error occurs, break loop

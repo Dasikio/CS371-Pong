@@ -86,7 +86,12 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
 
         #client.send(playerPaddleObj.moving.encode()) #Send paddle movement to server
         #opponentPaddleObj.moving = client.recv(1024).decode() #Receive opponent paddle movement from server
-        info = (ball.rect.x, ball.rect.y, playerPaddleObj.moving, sync)
+        if playerPaddle == "left":
+            score = lScore
+        else:
+            score = rScore
+
+        info = (ball.rect.x, ball.rect.y, playerPaddleObj.moving, score, sync)
         client.send(pickle.dumps(info))
         # ball x, ball y, paddle moving, score, sync
         # =========================================================================================

@@ -36,8 +36,11 @@ def player_handle(playerSocket,playerNum):
 
         #Try checks for error
         try:
-            msg = playerSocket.recv(1024).decode() #Retrieve paddle position message from client
-            paddleDirection[playerNum] = msg #Update position of the player calling the handle
+            #msg = playerSocket.recv(1024).decode() #Retrieve paddle position message from client
+            #paddleDirection[playerNum] = msg #Update position of the player calling the handle
+
+            msg = playerSocket.recv(1024)
+            
 
             #Set the reply to equal the position of the opponent's paddle
             if playerNum == 0: 

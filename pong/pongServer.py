@@ -56,7 +56,7 @@ def player_handle(playerSocket,playerNum):
                 reply[1] = paddleDirection[0]
                 opponentNum = 0
 
-            #Compare sync value to determine source of synchronization error
+            #Compare sync values to determine source of synchronization error
             if playerSync[playerNum] < playerSync[opponentNum] : #If current player sync less than opponent, changes value to match opponent
                 reply[0] = ballPosition[opponentNum] 
                 reply[2] = score[opponentNum]

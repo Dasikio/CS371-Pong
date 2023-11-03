@@ -53,7 +53,7 @@ def player_handle(playerSocket,playerNum):
                 reply = paddleDirection[0]
 
             #Find sys error
-            if playerSync[playerNum] < 0 #otehr player sync
+            if playerSync[playerNum] < 0 : #otehr player sync
                 a = ballPosition[1] #change for other player position
             else:
                 a = ballPosition[playerNum]

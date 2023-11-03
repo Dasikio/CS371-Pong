@@ -94,6 +94,21 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         info = (ball.rect.x, ball.rect.y, playerPaddleObj.moving, score, sync)
         client.send(pickle.dumps(info))
         # ball x, ball y, paddle moving, score, sync
+
+        serverUpdate = client.recv(1024) #receive server updated info, current ball position, opponent movement, current score
+        currentInfo = pickle.loads(serverUpdate) #de-pickle data 
+
+        #Loading data into corresponding client variables
+        opponentPaddleObj.moving = currentInfo[1]
+        ballPosition = currentInfo[0]
+        ball.rect.x = ballPosition[0]
+        ball.rect.y = ballPosition[1]
+
+        if playerPaddle == "left":
+            lScore = currentInfo[2]
+        else:
+            rScore = currentInfo[2]
+
         # =========================================================================================
 
         # Update the player paddle and opponent paddle's location on the screen

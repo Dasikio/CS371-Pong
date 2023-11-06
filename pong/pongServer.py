@@ -82,7 +82,6 @@ while True:
     playerSocket, playerAddress = server.accept()
     playerThread = threading.Thread(target=player_handle, args=(playerSocket,currPlayer,))
     playerThread.start()
-    playerThread.join()
     currPlayer +=1 #Update for next player
 
 #server.listen(5)

@@ -265,3 +265,4 @@ if __name__ == "__main__":
 # player 1's screen says "player 2 wins" when player 1 actually wins
 
 # player 2:
+# player 1's score is the only one being updated

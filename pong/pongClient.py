@@ -254,3 +254,14 @@ if __name__ == "__main__":
     # the startScreen() function should call playGame with the arguments given to it by the server this is
     # here for demo purposes only
     #playGame(640, 480,"left",socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+
+# TO FIX
+
+# player 1:
+
+# player 1's score appears on opposite side
+# player 1's scoreboard does not update at all until player 1 scores
+# player 2's score never appears on player 1's screen
+# player 1's screen says "player 2 wins" when player 1 actually wins
+
+# player 2:

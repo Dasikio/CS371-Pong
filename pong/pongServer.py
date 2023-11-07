@@ -31,7 +31,7 @@ score = [0, 0]
 def player_handle(playerSocket,playerNum):
     start = (640,480,side[playerNum]) #Tuple that contains values to start client (width,length, side of player)
     playerSocket.send(pickle.dumps(start)) #Send information via pickle so client receives tuple with the correct format after sending through socket
-    reply = [(320, 240), "", 0] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score
+    reply = [(320, 240), "", score] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score
 
     #Continuously get the paddle position from the client and reply with the paddle position of the opponent
     while True:

@@ -103,11 +103,12 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         ballPosition = currentInfo[0]
         ball.rect.x = ballPosition[0]
         ball.rect.y = ballPosition[1]
+        score = currentInfo[2]
 
         if playerPaddle == "left":
-            lScore = currentInfo[2]
+            lScore = score[0]
         else:
-            rScore = currentInfo[2]
+            rScore = score[1]
 
         # =========================================================================================
 

@@ -59,10 +59,10 @@ def player_handle(playerSocket,playerNum):
             #Compare sync values to determine source of synchronization error
             if playerSync[playerNum] < playerSync[opponentNum] : #If current player sync less than opponent, changes value to match opponent
                 reply[0] = ballPosition[opponentNum] 
-                reply[2] = score[opponentNum]
+                reply[2] = score
             else: #Otherwise, return current player's values
                 reply[0] = ballPosition[playerNum] 
-                reply[2] = score[playerNum]
+                reply[2] = score
                 
             playerSocket.send(pickle.dumps(reply)) #Send updated ball position, paddle movement direction, current score
        

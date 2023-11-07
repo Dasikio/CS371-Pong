@@ -46,6 +46,7 @@ def player_handle(playerSocket,playerNum):
             paddleDirection[playerNum] = playerInfo[2] #Store paddle movement
             ballPosition[playerNum] = (playerInfo[0],playerInfo[1]) #Store ball position
             playerSync[playerNum] = playerInfo[4] #Store sync value
+            score = playerInfo[3]
             opponentNum = 0
 
             #Set the reply to equal the position of the opponent's paddle

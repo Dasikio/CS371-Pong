@@ -27,8 +27,14 @@ paddleDirection = ["",""] #Default direction for paddles
 ballPosition = [(320,240),(320,240)]
 playerSync = [0,0]
 score = [0, 0]
+
+both_players_connected = threading.Event()
+
 #Handles information exchange between client and server 
 def player_handle(playerSocket,playerNum):
+
+    both_players_connected.wait()
+
     start = (640,480,side[playerNum]) #Tuple that contains values to start client (width,length, side of player)
     playerSocket.send(pickle.dumps(start)) #Send information via pickle so client receives tuple with the correct format after sending through socket
     reply = [(320, 240), "", [0, 0]] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score
@@ -79,13 +85,13 @@ currPlayer = 0 #Initialize variable to indicate current player
 
 #The main loop that connects the client to the server and begins a thread to update paddle positions to interested parties,
 #alternating between players
-while True:
+while currPlayer < 2:
     playerSocket, playerAddress = server.accept()
     playerThread = threading.Thread(target=player_handle, args=(playerSocket,currPlayer,))
     playerThread.start()
     currPlayer +=1 #Update for next player
 
-#server.listen(5)
+both_players_connected.set()
 
 #Close server
 server.close()

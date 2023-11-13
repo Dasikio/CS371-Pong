@@ -84,16 +84,17 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         # where the ball is and the current score.
         # Feel free to change when the score is updated to suit your needs/requirements
 
-        #client.send(playerPaddleObj.moving.encode()) #Send paddle movement to server
-        #opponentPaddleObj.moving = client.recv(1024).decode() #Receive opponent paddle movement from server
+        #Create a tuple for score that stores the player's score on the left and the opponent's score on the right
         score = [lScore, rScore]
 
+        #Store all of the necessary information into a tuple and send it to the server
+        #In order: Ball x-coordinate, ball y-coordinate, direction of movement of the player paddle, current score, and the player's sync value
         info = (ball.rect.x, ball.rect.y, playerPaddleObj.moving, score, sync)
         client.send(pickle.dumps(info))
-        # ball x, ball y, paddle moving, score, sync
 
-        serverUpdate = client.recv(1024) #receive server updated info, current ball position, opponent movement, current score
-        currentInfo = pickle.loads(serverUpdate) #de-pickle data 
+        #Receive updated information from the server: Current ball position, opponent's direction of movement, current score
+        serverUpdate = client.recv(1024) 
+        currentInfo = pickle.loads(serverUpdate) 
 
         #Loading data into corresponding client variables
         opponentPaddleObj.moving = currentInfo[1]
@@ -178,6 +179,8 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         # Send your server update here at the end of the game loop to sync your game with your
         # opponent's game
 
+
+
         # =========================================================================================
 
 
@@ -199,7 +202,7 @@ def joinServer(ip:str, port:str, errorLabel:tk.Label, app:tk.Tk) -> None:
     # You don't have to use SOCK_STREAM, use what you think is best
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # Get the required information from your server (screen width, height & player paddle, "left or "right)
+    # Get the required information from your server (screen width, height & player paddle, "left" or "right")
     client.connect((ip, int(port)))
     data = client.recv(1024) # Adjust the buffer size
     start = pickle.loads(data)

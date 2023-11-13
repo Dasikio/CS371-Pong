@@ -101,7 +101,9 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         ball.rect.x = ballPosition[0]
         ball.rect.y = ballPosition[1]
         receivedScore = currentInfo[2]
+        sync = currentInfo[3]
 
+        #Updating scores
         lScore = receivedScore[0]
         rScore = receivedScore[1]
 

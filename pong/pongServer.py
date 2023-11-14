@@ -140,3 +140,5 @@ server.close()
 # for each player and where the ball is, and relay that to each client
 # I suggest you use the sync variable in pongClient.py to determine how out of sync your two
  # clients are and take actions to resync the games
+#Slight difference in paddle position between clients might be due to packet loss. This also leads to the problem where the ball is not sync
+#between players as the position of the paddle is different, causing a different movement from the ball. 

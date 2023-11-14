@@ -86,10 +86,11 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
 
         #Create a tuple for score that stores the player's score on the left and the opponent's score on the right
         score = [lScore, rScore]
+        ballSpeed = [ball.xVel, ball.yVel]
 
         #Store all of the necessary information into a tuple and send it to the server
         #In order: Ball x-coordinate, ball y-coordinate, direction of movement of the player paddle, current score, and the player's sync value
-        info = (ball.rect.x, ball.rect.y, playerPaddleObj.moving, score, sync)
+        info = (ball.rect.x, ball.rect.y, playerPaddleObj.moving, score, sync, ballSpeed)
         client.send(pickle.dumps(info))
 
         #Receive updated information from the server: Current ball position, opponent's direction of movement, current score
@@ -103,7 +104,12 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         ball.rect.y = ballPosition[1]
         receivedScore = currentInfo[2]
         sync = currentInfo[3]
-
+        ballSpeed = currentInfo[4]
+        
+        #update ball speed
+        ball.xVel = ballSpeed[0]
+        ball.yVel = ballSpeed[1]
+        
         #Updating scores
         lScore = receivedScore[0]
         rScore = receivedScore[1]

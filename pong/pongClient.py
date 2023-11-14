@@ -297,5 +297,5 @@ if __name__ == "__main__":
 
 # TO FIX
 
-#scores not synchronized
-#losing player does not receive final score update to show opponent won and their screen instead freezes
+#Text that prompts user to press y or n to replay
+#Check that both players press y before replaying

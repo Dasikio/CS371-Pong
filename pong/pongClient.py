@@ -60,7 +60,10 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
 
     sync = 0
 
-    while True:
+
+    play_again = True
+
+    while play_again:
         # Wiping the screen
         screen.fill((0,0,0))
 
@@ -125,13 +128,43 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
                 if paddle.rect.topleft[1] > 10:
                     paddle.rect.y -= paddle.speed
 
-        # If the game is over, display the win message
+        # If the game is over, display the win message and prompt for play again
         if lScore > 4 or rScore > 4:
             winText = "Player 1 Wins! " if lScore > 4 else "Player 2 Wins! "
             textSurface = winFont.render(winText, False, WHITE, (0,0,0))
             textRect = textSurface.get_rect()
             textRect.center = ((screenWidth/2), screenHeight/2)
             screen.blit(textSurface, textRect)
+
+            # Display play again prompt
+            play_again_text = "Press 'Y' to play again or 'N' to exit."
+            play_again_surface = scoreFont.render(play_again_text, False, WHITE, (0,0,0))
+            play_again_rect = play_again_surface.get_rect()
+            play_again_rect.center = ((screenWidth/2), screenHeight/2 + 50)
+            screen.blit(play_again_surface, play_again_rect)
+
+            pygame.display.flip()
+
+            # Wait for user input
+            waiting_for_input = True
+            while waiting_for_input:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_y:
+                            # Play again
+                            waiting_for_input = False
+                            play_again = True
+                            lScore = 0
+                            rScore = 0
+                            ball.reset()
+                        elif event.key == pygame.K_n:
+                            # Exit
+                            waiting_for_input = False
+                            play_again = False
+                            
         else:
 
             # ==== Ball Logic =====================================================================

@@ -42,7 +42,7 @@ def player_handle(playerSocket,playerNum):
 
     start = (640,480,side[playerNum]) #Tuple that contains values to start client (width,length, side of player)
     playerSocket.send(pickle.dumps(start)) #Send information via pickle so client receives tuple with the correct format after sending through socket
-    reply = [(320, 240), "", [0, 0], 0, [0, 0]] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score, int for sync
+    reply = [(320, 240), "", [0, 0], 0, [0, 0]] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score, int for sync, tuple for ball speed
 
     #Continuously get the paddle position from the client and reply with the paddle position of the opponent
     while True:
@@ -73,13 +73,16 @@ def player_handle(playerSocket,playerNum):
                 opponentNum = 0
 
             #Compare sync values to determine source of synchronization error
-            if playerSync[playerNum] < playerSync[opponentNum] : #If current player sync less than opponent, changes value to match opponent
+
+            #If current player sync less than opponent, changes values to match opponent
+            if playerSync[playerNum] < playerSync[opponentNum] : 
                 reply[0] = ballPosition[opponentNum] 
                 reply[2] = score
                 reply[3] = playerSync[opponentNum]
                 reply[4] = ballSpeed[opponentNum]
 
-
+            #If the scoreboard on the player side does not match the scoreboard on the opponent side, set the reply
+            #equal to the values of the side with the most recent score update
             elif score[0] != score[1]:
                 if score[0][0] > score [1][0] or score[0][1] > score [1][1]:
                     reply[0] = ballPosition[0] 
@@ -92,13 +95,14 @@ def player_handle(playerSocket,playerNum):
                     reply[3] = playerSync[1]
                     reply[4] = ballSpeed[1]
             
-            else: #Otherwise, return current player's values
+            #Otherwise, return current player's values
+            else: 
                 reply[0] = ballPosition[playerNum] 
                 reply[2] = score
                 reply[3] = playerSync[playerNum]
                 reply[4] = ballSpeed[playerNum]
                 
-            playerSocket.send(pickle.dumps(reply)) #Send updated ball position, paddle movement direction, current score
+            playerSocket.send(pickle.dumps(reply)) #Send updated ball position, paddle movement direction, current score, sync value, ball speed
        
        #If an error occurs, break loop
         except:

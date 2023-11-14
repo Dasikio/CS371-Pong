@@ -159,12 +159,12 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
                             play_again = True
                             lScore = 0
                             rScore = 0
-                            ball.reset()
+                            ball.reset(nowGoing="left")
                         elif event.key == pygame.K_n:
                             # Exit
                             waiting_for_input = False
                             play_again = False
-                            
+
         else:
 
             # ==== Ball Logic =====================================================================

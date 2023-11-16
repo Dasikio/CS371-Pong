@@ -136,7 +136,7 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
             winText = "Player 1 Wins! " if lScore > 4 else "Player 2 Wins! "
             textSurface = winFont.render(winText, False, WHITE, (0,0,0))
             textRect = textSurface.get_rect()
-            textRect.center = ((screenWidth/2), screenHeight/2)
+            textRect.center = ((screenWidth/2), screenHeight/2-50)
             screen.blit(textSurface, textRect)
 
             # Display play again prompt

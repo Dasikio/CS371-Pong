@@ -89,7 +89,7 @@ def player_handle(playerSocket,playerNum):
             #If current player sync less than opponent, changes values to match opponent
             if playerSync[playerNum] < playerSync[opponentNum] : 
                 reply[0] = ballPosition[opponentNum] 
-                reply[2] = score
+                reply[2] = score[opponentNum]
                 reply[3] = playerSync[opponentNum]
                 reply[4] = ballSpeed[opponentNum]
                 reply[5] = paddlePos_Y[playerNum]
@@ -113,7 +113,7 @@ def player_handle(playerSocket,playerNum):
             #Otherwise, return current player's values
             else: 
                 reply[0] = ballPosition[playerNum] 
-                reply[2] = score
+                reply[2] = score[playerNum]
                 reply[3] = playerSync[playerNum]
                 reply[4] = ballSpeed[playerNum]
                 reply[5] = paddlePos_Y[opponentNum] #always send oponents paddle Y coord

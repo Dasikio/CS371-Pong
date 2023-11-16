@@ -137,11 +137,21 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
             screen.blit(textSurface, textRect)
 
             # Display play again prompt
-            play_again_text = "Press 'Y' to play again or 'N' to exit."
-            play_again_surface = scoreFont.render(play_again_text, False, WHITE, (0,0,0))
-            play_again_rect = play_again_surface.get_rect()
-            play_again_rect.center = ((screenWidth/2), screenHeight/2 + 50)
-            screen.blit(play_again_surface, play_again_rect)
+            play_again_text1 = "Press Y to play again"
+            play_again_text2 = "or"
+            play_again_text3 = "N to exit"
+            play_again_surface1 = winFont.render(play_again_text1, False, WHITE, (0,0,0))
+            play_again_surface2 = winFont.render(play_again_text2, False, WHITE, (0,0,0))
+            play_again_surface3 = winFont.render(play_again_text3, False, WHITE, (0,0,0))
+            play_again_rect1 = play_again_surface1.get_rect()
+            play_again_rect2 = play_again_surface2.get_rect()
+            play_again_rect3 = play_again_surface3.get_rect()
+            play_again_rect1.center = ((screenWidth/2), screenHeight/2 + 20)
+            play_again_rect2.center = ((screenWidth/2), screenHeight/2 + 70)
+            play_again_rect3.center = ((screenWidth/2), screenHeight/2 + 110)
+            screen.blit(play_again_surface1, play_again_rect1)
+            screen.blit(play_again_surface2, play_again_rect2)
+            screen.blit(play_again_surface3, play_again_rect3)
 
             pygame.display.flip()
 

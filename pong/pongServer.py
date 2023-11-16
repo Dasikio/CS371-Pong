@@ -1,8 +1,9 @@
 # =================================================================================================
 # Contributing Authors:	    Daniel Alvarado, Natalie O'Leary
 # Email Addresses:          dal240@uky.edu, natalie.oleary@uky.edu
-# Date:                     <The date the file was last edited>
-# Purpose:                  <How this file contributes to the project>
+# Date:                     11/16/2023
+# Purpose:                  This file is the programm to run teh Server needed for the local network pong game to run. It handles client connections
+#                           and syncronization to enable 2 clients to play otgether.
 # Misc:                     <Not Required.  Anything else you might want to include>
 # =================================================================================================
 
@@ -34,8 +35,18 @@ ballSpeed = [[0,0],[0,0]]
 #Create event to check that both players are connected before starting
 both_players_connected = threading.Event()
 
+
 #Primary function that handles information exchange between client and server -> to be run in concurrent threads
 def player_handle(playerSocket,playerNum):
+    # =============================================================================================================================
+    # Author:   Daniel Alvarado and Natalie O'Leary
+    # Purpose:  This method handles new player connections such that both clients can exchange crutial data for the game to run. Additionally,
+    #           it handles any connection or communications errors.
+    # Pre:      All global variables that handle player information must be set to their initial values (most cases 0), additionally it requires clients
+    #           to be assignd a number (0 or 1) as to determine which paddle they will be for the duration of the game.
+    # Post:     This method changes global variables paddleDirection, ballPosition, playerSync, score, and ballSpeed. Additionally once it finished it
+    #           closes the socket assigned to the client. 
+    # =============================================================================================================================
 
     #Wait until both players are connected before proceeding
     both_players_connected.wait()

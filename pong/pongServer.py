@@ -27,10 +27,13 @@ print(f"Listening on {SERVER}") #Once the server starts listening, it shows the 
 #Initialize variables
 side = ["left","right"] #List that specifies which side each player is on (list value 0 = left player, list value 1 = right player)
 paddleDirection = ["",""] #Default direction for paddles
+paddlePos_Y = [240,240]
 ballPosition = [(320,240),(320,240)]
-playerSync = [0,0]
-score = [[0,0], [0,0]]
 ballSpeed = [[0,0],[0,0]]
+score = [[0,0], [0,0]]
+playerSync = [0,0]
+
+
 
 #Create event to check that both players are connected before starting
 both_players_connected = threading.Event()
@@ -53,7 +56,7 @@ def player_handle(playerSocket,playerNum):
 
     start = (640,480,side[playerNum]) #Tuple that contains values to start client (width,length, side of player)
     playerSocket.send(pickle.dumps(start)) #Send information via pickle so client receives tuple with the correct format after sending through socket
-    reply = [(320, 240), "", [0, 0], 0, [0, 0]] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score, int for sync, tuple for ball speed
+    reply = [(320, 240), "", [0, 0], 0, [0, 0], 240] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score, int for sync, tuple ballspeed, tuple paddle y locations
 
     #Continuously get the paddle position from the client and reply with the paddle position of the opponent
     while True:
@@ -70,18 +73,16 @@ def player_handle(playerSocket,playerNum):
             paddleDirection[playerNum] = playerInfo[2] #Store paddle movement
             ballPosition[playerNum] = (playerInfo[0],playerInfo[1]) #Store ball position
             playerSync[playerNum] = playerInfo[4] #Store sync value
-            score = playerInfo[3]
+            score[playerNum] = playerInfo[3]
             ballSpeed[playerNum] = playerInfo[5]
+            paddlePos_Y[playerNum] = playerInfo[6]
+
 
             opponentNum = 0
 
             #Set the reply to equal the movement direction of the opponent's paddle
-            if playerNum == 0:
-                reply[1] = paddleDirection[1]
-                opponentNum = 1
-            else:
-                reply[1] = paddleDirection[0]
-                opponentNum = 0
+            opponentNum = 1 - playerNum
+            reply[1] = paddleDirection[opponentNum]
 
             #Compare sync values to determine source of synchronization error
 
@@ -91,6 +92,7 @@ def player_handle(playerSocket,playerNum):
                 reply[2] = score
                 reply[3] = playerSync[opponentNum]
                 reply[4] = ballSpeed[opponentNum]
+                reply[5] = paddlePos_Y[playerNum]
 
             #If the scoreboard on the player side does not match the scoreboard on the opponent side, set the reply
             #equal to the values of the side with the most recent score update
@@ -100,11 +102,13 @@ def player_handle(playerSocket,playerNum):
                     reply[2] = score[0]
                     reply[3] = playerSync[0]
                     reply[4] = ballSpeed[0]
+                    reply[5] = paddlePos_Y[1]
                 else:
                     reply[0] = ballPosition[1] 
                     reply[2] = score[1]
                     reply[3] = playerSync[1]
                     reply[4] = ballSpeed[1]
+                    reply[5] = paddlePos_Y[0]
             
             #Otherwise, return current player's values
             else: 
@@ -112,6 +116,8 @@ def player_handle(playerSocket,playerNum):
                 reply[2] = score
                 reply[3] = playerSync[playerNum]
                 reply[4] = ballSpeed[playerNum]
+                reply[5] = paddlePos_Y[opponentNum] #always send oponents paddle Y coord
+
                 
             playerSocket.send(pickle.dumps(reply)) #Send updated ball position, paddle movement direction, current score, sync value, ball speed
        

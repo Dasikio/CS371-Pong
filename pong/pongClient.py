@@ -1,7 +1,7 @@
 # =================================================================================================
 # Contributing Authors:	    Daniel Alvarado, Natalie O'Leary
 # Email Addresses:          dal240@uky.edu, natalie.oleary@uky.edu
-# Date:                     10/24/2023
+# Date:                     11/16/2023
 # Purpose:                  This file manages each client so that it can send and receive information to and from the server, thus enabling gameplay
 # =================================================================================================
 

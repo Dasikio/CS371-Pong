@@ -2,9 +2,8 @@
 # Contributing Authors:	    Daniel Alvarado, Natalie O'Leary
 # Email Addresses:          dal240@uky.edu, natalie.oleary@uky.edu
 # Date:                     11/16/2023
-# Purpose:                  This file is the programm to run teh Server needed for the local network pong game to run. It handles client connections
-#                           and syncronization to enable 2 clients to play otgether.
-# Misc:                     <Not Required.  Anything else you might want to include>
+# Purpose:                  This file is the programm to handle the server needed for the local network pong game to run. It handles client connections
+#                           and synchronization to enable 2 clients to play together.
 # =================================================================================================
 
 import socket
@@ -18,7 +17,7 @@ server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #Working on local h
 server.bind((SERVER, 12321))
 
 #Server begins to listen
-server.listen(5) #find how to allow infinite #of players / maybe start listening in a bigger loop so it always listens for 2 connections then start listening again?
+server.listen(100) 
 print(f"Listening on {SERVER}") #Once the server starts listening, it shows the IPv4 to use to connect
 
 #Initialize variables
@@ -30,11 +29,8 @@ ballSpeed = [[0,0],[0,0]]
 score = [[0,0], [0,0]]
 playerSync = [0,0]
 
-
-
 #Create event to check that both players are connected before starting
 both_players_connected = threading.Event()
-
 
 #Primary function that handles information exchange between client and server -> to be run in concurrent threads
 def player_handle(playerSocket,playerNum):

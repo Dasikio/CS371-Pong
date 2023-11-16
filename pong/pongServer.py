@@ -13,11 +13,8 @@ import pickle
 
 #Set up server
 SERVER = socket.gethostbyname(socket.gethostname()) #Get server IPv4 address (might change depending on network)
-
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Create server
-
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #Working on local host
-
 server.bind((SERVER, 12321))
 
 #Server begins to listen

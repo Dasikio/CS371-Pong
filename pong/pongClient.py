@@ -2,8 +2,7 @@
 # Contributing Authors:	    Daniel Alvarado, Natalie O'Leary
 # Email Addresses:          dal240@uky.edu, natalie.oleary@uky.edu
 # Date:                     10/24/2023
-# Purpose:                  <How this file contributes to the project>
-# Misc:                     <Not Required.  Anything else you might want to include>
+# Purpose:                  This file manages each client so that it can send and receive information to and from the server, thus enabling gameplay
 # =================================================================================================
 
 import pygame
@@ -92,11 +91,11 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         ballSpeed = [ball.xVel, ball.yVel]
 
         #Store all of the necessary information into a tuple and send it to the server
-        #In order: Ball x-coordinate, ball y-coordinate, direction of movement of the player paddle, current score, and the player's sync value
+        #In order: Ball x-coordinate, ball y-coordinate, direction of movement of the player paddle, current score, player's sync value, ball speed, and player's paddle location
         info = (ball.rect.x, ball.rect.y, playerPaddleObj.moving, score, sync, ballSpeed, playerPaddleObj.rect.y)
         client.send(pickle.dumps(info))
 
-        #Receive updated information from the server: Current ball position, opponent's direction of movement, current score
+        #Receive updated information from the server: Current ball position, opponent's direction of movement, current score, opponent's sync value, opponent's ball speed, opponent's paddle position
         serverUpdate = client.recv(1024) 
         currentInfo = pickle.loads(serverUpdate) 
 
@@ -109,14 +108,14 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
         sync = currentInfo[3]
         ballSpeed = currentInfo[4]
         
-        #update opponent paddle y coord
+        #Update the position of the opponent's paddle
         opponentPaddleObj.rect.y = currentInfo[5]
 
-        #update ball speed
+        #Update the ball speed
         ball.xVel = ballSpeed[0]
         ball.yVel = ballSpeed[1]
         
-        #Updating scores
+        #Update scores
         lScore = receivedScore[0]
         rScore = receivedScore[1]
 
@@ -139,7 +138,9 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
             textRect.center = ((screenWidth/2), screenHeight/2-100)
             screen.blit(textSurface, textRect)
 
-            # Display play again prompt
+            #Included functionality for a "Play Again" feature below:
+
+            #Each user is prompted to press "Y" to play again or "N" to exit
             play_again_text1 = "Press Y to play again"
             play_again_text2 = "or"
             play_again_text3 = "N to exit"
@@ -158,7 +159,10 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
 
             pygame.display.flip()
 
-            # Wait for user input
+            #Wait for user input
+            #If a user presses Y, the game begins again, resetting the score and sending the ball left
+            #If a user presses N, the server and the game window close
+            #If a user closes the game window, the game ends
             waiting_for_input = True
             while waiting_for_input:
                 for event in pygame.event.get():
@@ -308,7 +312,3 @@ if __name__ == "__main__":
     # here for demo purposes only
     #playGame(640, 480,"left",socket.socket(socket.AF_INET, socket.SOCK_STREAM))
 
-# TO FIX
-
-#Text that prompts user to press y or n to replay
-#Check that both players press y before replaying

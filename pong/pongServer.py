@@ -52,7 +52,7 @@ def player_handle(playerSocket,playerNum)-> None:
 
     start = (640,480,side[playerNum]) #Tuple that contains values to start client (width,length, side of player)
     playerSocket.send(pickle.dumps(start)) #Send information via pickle so client receives tuple with the correct format after sending through socket
-    reply = [(320, 240), "", [0, 0], 0, [0, 0], 240] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score, int for sync, tuple ballspeed, tuple paddle y locations
+    reply = [(320, 240), "", [0, 0], 0, [0, 0], 240] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score, int for sync, tuple ballspeed, tuple paddle y coordinate
 
     #Continuously get the paddle position from the client and reply with the paddle position of the opponent
     while True:
@@ -146,12 +146,3 @@ while True:
 
 #Close server
 server.close()
-
-# Use this file to write your server logic
-# You will need to support at least two clients
-# You will need to keep track of where on the screen (x,y coordinates) each paddle is, the score 
-# for each player and where the ball is, and relay that to each client
-# I suggest you use the sync variable in pongClient.py to determine how out of sync your two
- # clients are and take actions to resync the games
-#Slight difference in paddle position between clients might be due to packet loss. This also leads to the problem where the ball is not sync
-#between players as the position of the paddle is different, causing a different movement from the ball. 

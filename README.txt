@@ -33,6 +33,6 @@ Run the following line to install the required libraries for this project:
 
 Known Bugs
 ==========
-- Sporadicly a visual bug will appear, which causes the opponent's paddle to appear in the same position as the player's paddle. This does not affect playability as the opponent paddle returns to the actual position immediately.
+- Visual bug which causes the opponent's paddle to appear in the same position as the player's paddle momentarily. This does not affect playability as the opponent paddle returns to the actual position immediately.
 - Occasionally the ball's trajectory will change due to slight conflict in paddle locations, but the server corrects the ball position and trajectory. 
 

@@ -29,11 +29,14 @@ ballSpeed = [[0,0],[0,0]]
 score = [[0,0], [0,0]]
 playerSync = [0,0]
 
+
+
 #Create event to check that both players are connected before starting
 both_players_connected = threading.Event()
 
+
 #Primary function that handles information exchange between client and server -> to be run in concurrent threads
-def player_handle(playerSocket,playerNum):
+def player_handle(playerSocket,playerNum)-> None:
     # =============================================================================================================================
     # Author:   Daniel Alvarado and Natalie O'Leary
     # Purpose:  This method handles new player connections such that both clients can exchange crutial data for the game to run. Additionally,

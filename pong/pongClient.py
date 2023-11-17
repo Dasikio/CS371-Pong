@@ -1,7 +1,7 @@
 # =================================================================================================
 # Contributing Authors:	    Daniel Alvarado, Natalie O'Leary
 # Email Addresses:          dal240@uky.edu, natalie.oleary@uky.edu
-# Date:                     11/16/2023
+# Date:                     11/17/2023
 # Purpose:                  This file manages each client so that it can send and receive information to and from the server, thus enabling gameplay
 # =================================================================================================
 
@@ -88,6 +88,8 @@ def playGame(screenWidth:int, screenHeight:int, playerPaddle:str, client:socket.
 
         #Create a tuple for score that stores the player's score on the left and the opponent's score on the right
         score = [lScore, rScore]
+
+        #Create a tuple for ball velocity
         ballSpeed = [ball.xVel, ball.yVel]
 
         #Store all of the necessary information into a tuple and send it to the server

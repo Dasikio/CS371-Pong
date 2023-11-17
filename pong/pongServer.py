@@ -1,8 +1,8 @@
 # =================================================================================================
 # Contributing Authors:	    Daniel Alvarado, Natalie O'Leary
 # Email Addresses:          dal240@uky.edu, natalie.oleary@uky.edu
-# Date:                     11/16/2023
-# Purpose:                  This file is the programm to handle the server needed for the local network pong game to run. It handles client connections
+# Date:                     11/17/2023
+# Purpose:                  This file is the program to handle the server needed for the local network pong game to run. It handles client connections
 #                           and synchronization to enable 2 clients to play together.
 # =================================================================================================
 
@@ -42,8 +42,8 @@ def player_handle(playerSocket,playerNum)-> None:
     # Purpose:  This method handles new player connections such that both clients can exchange crutial data for the game to run. Additionally,
     #           it handles any connection or communications errors.
     # Pre:      All global variables that handle player information must be set to their initial values (most cases 0), additionally it requires clients
-    #           to be assignd a number (0 or 1) as to determine which paddle they will be for the duration of the game.
-    # Post:     This method changes global variables paddleDirection, ballPosition, playerSync, score, and ballSpeed. Additionally once it finished it
+    #           to be assignd a number (0 or 1) to determine which paddle they will be for the duration of the game.
+    # Post:     This method changes global variables paddleDirection, ballPosition, playerSync, score, and ballSpeed. Additionally once it finishes it
     #           closes the socket assigned to the client. 
     # =============================================================================================================================
 
@@ -54,7 +54,7 @@ def player_handle(playerSocket,playerNum)-> None:
     playerSocket.send(pickle.dumps(start)) #Send information via pickle so client receives tuple with the correct format after sending through socket
     reply = [(320, 240), "", [0, 0], 0, [0, 0], 240] #Initialize reply variable with ball coordinates, empty string for paddle direction, int for score, int for sync, tuple ballspeed, tuple paddle y coordinate
 
-    #Continuously get the paddle position from the client and reply with the paddle position of the opponent
+    #Continuously get information from the client and reply with the opponent's information
     while True:
 
         #Try checks for error
@@ -76,7 +76,7 @@ def player_handle(playerSocket,playerNum)-> None:
 
             opponentNum = 0
 
-            #Set the reply to equal the movement direction of the opponent's paddle
+            #Set the reply to contain the movement direction of the opponent's paddle
             opponentNum = 1 - playerNum
             reply[1] = paddleDirection[opponentNum]
 
@@ -112,7 +112,7 @@ def player_handle(playerSocket,playerNum)-> None:
                 reply[2] = score[playerNum]
                 reply[3] = playerSync[playerNum]
                 reply[4] = ballSpeed[playerNum]
-                reply[5] = paddlePos_Y[opponentNum] #always send oponents paddle Y coord
+                reply[5] = paddlePos_Y[opponentNum] #always send opponent's paddle's Y coord
 
                 
             playerSocket.send(pickle.dumps(reply)) #Send updated ball position, paddle movement direction, current score, sync value, ball speed
@@ -140,7 +140,7 @@ while True:
     currPlayer +=1 #Update for next player
     if currPlayer == 2:
         both_players_connected.set() #Start game once 2 players have joined
-        currPlayer = 0 #Reset player waitlist counter?
+        currPlayer = 0 #Reset player waitlist counter
         both_players_connected.clear() #Reset event so it waits for 2 new player to connect
 
 
